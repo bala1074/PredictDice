@@ -1,0 +1,212 @@
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+  <style type="text/css">
+  .row-div{
+    display: flex;
+        padding: 5px 0px;
+  }
+  .square {
+    background: #CFB53B;
+    padding: 10px 15px;
+    width: 10px;
+  }
+  .div-center-hz{
+    margin: auto 0px;
+        padding-left: 5px;
+  }
+  .div-counter{
+        font-weight: bold;
+    padding: 0px 10px;
+  }
+  .square-min{
+    background: #CFB53B;
+    padding: 2px 9px;
+    width: 5px;
+        margin: 0px 2px;
+  }
+  .square-min-1{
+    background: #00ff7f;
+    padding: 2px 9px;
+    width: 5px;
+        margin: 0px 2px;
+  }
+  
+  .square-min-parent{
+    display: inline-flex;
+        padding: 2px 0px;
+  }
+  .div-color{
+    color: darkgreen;
+  }
+  </style>
+</head>
+<body>
+</body>
+<script type="text/jsx">
+ let history=[];
+  // Define a `class`
+ class Step1 extends React.Component {
+
+  	constructor(props){
+  		super(props);
+  		history=[];
+  		this.state={
+  			dice1:0,
+        dice2:0,
+        dice3:0,
+        dice4:0,
+        dice5:0,
+        dice6:0,
+        aggDice1:0,
+        aggDice2:0,
+        aggDice3:0,
+        aggDice4:0,
+        aggDice5:0,
+        aggDice6:0,
+        tries:0
+  			};
+  	}
+  
+  	handleReset(){
+		  this.setState({
+        dice1:0,
+        dice2:0,
+        dice3:0,
+        dice4:0,
+        dice5:0,
+        dice6:0,
+        tries:0
+  			});
+  	}
+  	
+    handleCount(val,dice){
+      let eVal=0;
+      switch(dice){
+        case 1:
+          eVal=this.state.dice1+val;
+          eVal=eVal<0?0:eVal;
+          this.setState({dice1:eVal});
+          break;
+        case 2:
+          eVal=this.state.dice2+val;
+          eVal=eVal<0?0:eVal;
+          this.setState({dice2:eVal});
+          break;
+        case 3:
+          eVal=this.state.dice3+val;
+          eVal=eVal<0?0:eVal;
+          this.setState({dice3:eVal});
+          break;
+        case 4:
+          eVal=this.state.dice4+val;
+          eVal=eVal<0?0:eVal;
+          this.setState({dice4:eVal});
+          break;
+        case 5:
+          eVal=this.state.dice5+val;
+          eVal=eVal<0?0:eVal;
+          this.setState({dice5:eVal});
+          break;
+        case 6:
+          eVal=this.state.dice6+val;
+          eVal=eVal<0?0:eVal;
+          this.setState({dice6:eVal});
+          break;    
+      }
+    }
+    handleSubmit(){
+      let count=this.state.dice1+this.state.dice2+this.state.dice3+this.state.dice4+this.state.dice5+this.state.dice6;
+      if(count==6){
+        this.setState({
+          aggDice1:this.state.aggDice1+this.state.dice1,
+          aggDice2:this.state.aggDice2+this.state.dice2,
+          aggDice3:this.state.aggDice3+this.state.dice3,
+          aggDice4:this.state.aggDice4+this.state.dice4,
+          aggDice5:this.state.aggDice5+this.state.dice5,
+          aggDice6:this.state.aggDice6+this.state.dice6,
+        });
+        history=[
+        <div className='square-min-parent'>
+          <div className='square-min'>{this.state.dice1}</div>
+          <div className='square-min'>{this.state.dice2}</div>
+          <div className='square-min'>{this.state.dice3}</div>
+          <div className='square-min'>{this.state.dice4}</div>
+          <div className='square-min'>{this.state.dice5}</div>
+          <div className='square-min'>{this.state.dice6}</div>
+        </div>,...history];
+        this.handleReset();
+        this.setState({tries:this.state.tries+6});
+      }
+      else{
+        alert('please fill all data');
+      }
+    }
+
+    render() {
+      return (
+      <div>
+        <div className='row-div'>
+          <div className='square'>1</div>
+          <div className='div-center-hz'><img src="./minus.png" onClick={this.handleCount.bind(this,-1,1)} /></div>
+          <div className='div-center-hz div-counter'>{this.state.dice1}</div>
+          <div className='div-center-hz'><img src="./plus.png" onClick={this.handleCount.bind(this,1,1)}/></div>
+          <div className='div-center-hz div-counter div-color'>{((this.state.aggDice1/this.state.tries)*100).toFixed(2)}%</div>
+        </div>
+        <div className='row-div'>
+          <div className='square'>2</div>
+          <div className='div-center-hz'><img src="./minus.png" onClick={this.handleCount.bind(this,-1,2)} /></div>
+          <div className='div-center-hz div-counter'>{this.state.dice2}</div>
+          <div className='div-center-hz'><img src="./plus.png" onClick={this.handleCount.bind(this,1,2)}/></div>
+          <div className='div-center-hz div-counter div-color'>{((this.state.aggDice2/this.state.tries)*100).toFixed(2)}%</div>
+        </div>
+        <div className='row-div'>
+          <div className='square'>3</div>
+          <div className='div-center-hz'><img src="./minus.png" onClick={this.handleCount.bind(this,-1,3)} /></div>
+          <div className='div-center-hz div-counter'>{this.state.dice3}</div>
+          <div className='div-center-hz'><img src="./plus.png" onClick={this.handleCount.bind(this,1,3)}/></div>
+          <div className='div-center-hz div-counter div-color'>{((this.state.aggDice3/this.state.tries)*100).toFixed(2)}%</div>
+        </div>
+        <div className='row-div'>
+          <div className='square'>4</div>
+          <div className='div-center-hz'><img src="./minus.png" onClick={this.handleCount.bind(this,-1,4)} /></div>
+          <div className='div-center-hz div-counter'>{this.state.dice4}</div>
+          <div className='div-center-hz'><img src="./plus.png" onClick={this.handleCount.bind(this,1,4)}/></div>
+          <div className='div-center-hz div-counter div-color'>{((this.state.aggDice4/this.state.tries)*100).toFixed(2)}%</div>
+        </div>
+        <div className='row-div'>
+          <div className='square'>5</div>
+          <div className='div-center-hz'><img src="./minus.png" onClick={this.handleCount.bind(this,-1,5)} /></div>
+          <div className='div-center-hz div-counter'>{this.state.dice5}</div>
+          <div className='div-center-hz'><img src="./plus.png" onClick={this.handleCount.bind(this,1,5)}/></div>
+          <div className='div-center-hz div-counter div-color'>{((this.state.aggDice5/this.state.tries)*100).toFixed(2)}%</div>
+        </div>
+        <div className='row-div'>
+          <div className='square'>6</div>
+          <div className='div-center-hz'><img src="./minus.png" onClick={this.handleCount.bind(this,-1,6)} /></div>
+          <div className='div-center-hz div-counter'>{this.state.dice6}</div>
+          <div className='div-center-hz'><img src="./plus.png" onClick={this.handleCount.bind(this,1,6)}/></div>
+          <div className='div-center-hz div-counter div-color'>{((this.state.aggDice6/this.state.tries)*100).toFixed(2)}%</div>
+        </div>
+        <input type="button" value="submit" style={{background:'#CFB53B'}} onClick={this.handleSubmit.bind(this)}/>
+        <br />History<br />
+        <div className='square-min-parent'>
+          <div className='square-min-1'>1</div>
+          <div className='square-min-1'>2</div>
+          <div className='square-min-1'>3</div>
+          <div className='square-min-1'>4</div>
+          <div className='square-min-1'>5</div>
+          <div className='square-min-1'>6</div>
+        </div>
+        <div style={{display:'grid',padding:'3px 0px'}}>{history}</div>
+      </div>
+      );
+    }
+  };
+
+  // React, please render this class
+  var element = React.createElement(Step1);
+
+  // React, after you render this class, please place it in my body tag
+  React.render(element, document.body);
+</script>
